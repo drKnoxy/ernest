@@ -1,10 +1,10 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "identifier": "com.example.electron-boilerplate",
-  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
+  "name": "ernest",
+  "productName": "Ernest",
+  "identifier": "ernest",
+  "description": "A writer's interface to Hugo",
   "version": "0.1.0",
-  "author": "Mr Gumby",
+  "author": "DrKnoxy",
   "main": "background.js",
   "dependencies": {
     "fs-jetpack": "^0.7.0"
