@@ -3,6 +3,7 @@
 var pathUtil = require('path');
 var Q = require('q');
 var gulp = require('gulp');
+var concat = require('gulp-concat');
 var rollup = require('rollup');
 var sass = require('gulp-sass');
 var jetpack = require('fs-jetpack');
@@ -21,6 +22,16 @@ var paths = {
         './**/*.html',
         './**/*.+(jpg|png|svg)'
     ],
+    appScripts: [
+        '!./app/vendor/**/*',
+        '!./app/node_modules/**/*',
+        '!./app/background.js',
+        '!./app/env.js',
+        '!./app/main.js',
+        './app/app.js',
+        './app/**/module.js',
+        './app/**/*.js',
+    ]
 }
 
 // -------------------------------------
@@ -41,7 +52,12 @@ var copyTask = function () {
 gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
-
+function compileScripts() {
+    return gulp.src(paths.appScripts)
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest(destDir.path('js')))
+}
+gulp.task('compileScripts', compileScripts);
 var bundle = function (src, dest) {
     var deferred = Q.defer();
 
@@ -73,7 +89,8 @@ var bundle = function (src, dest) {
 var bundleApplication = function () {
     return Q.all([
         bundle(srcDir.path('background.js'), destDir.path('background.js')),
-        bundle(srcDir.path('app.js'), destDir.path('app.js')),
+        bundle(srcDir.path('main.js'), destDir.path('main.js')),
+        compileScripts(),
     ]);
 };
 
